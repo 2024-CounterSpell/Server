@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 services:
   mysql:
     image: mysql:8.0
@@ -13,7 +13,6 @@ services:
     volumes:
       - ./db/mysql/data:/var/lib/mysql
       - ./db/mysql/init:/docker-entrypoint-initdb.d
-    platform: linux/x86_64
 
   spell-server:
     build:
@@ -24,4 +23,4 @@ services:
     depends_on:
       - mysql
     ports:
-      - '8083:8080'  # 컨테이너의 8080 포트를 호스트의 8083 포트에 매핑
+      - '8083:8083'  # 컨테이너의 8080 포트를 호스트의 8083 포트에 매핑
