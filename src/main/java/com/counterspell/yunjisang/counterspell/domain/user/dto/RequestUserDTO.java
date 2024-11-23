@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Setter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class RequestUserDTO {
     @Data
@@ -17,11 +16,11 @@ public class RequestUserDTO {
         @NotBlank(message = "이름은 필수값입니다") private String username;
         private String password;
 
-        public User toEntity(PasswordEncoder passwordEncoder) {
+        public User toEntity() {
             return User.builder()
                     .email(email)
                     .username(username)
-                    .password(passwordEncoder.encode(password))
+                    .password(password)
                     .build();
         }
     }
