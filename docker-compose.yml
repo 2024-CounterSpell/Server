@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: spell-mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_USER: team_hot6
+      MYSQL_ROOT_PASSWORD: spell@1234
+      TZ: Asia/Seoul
+    volumes:
+      - ./db/mysql/data:/var/lib/mysql
+      - ./db/mysql/init:/docker-entrypoint-initdb.d
+    platform: linux/x86_64
+
+  spell-server:
+    build:
+      context: .  # 현재 디렉토리에서 Dockerfile을 찾음
+      dockerfile: Dockerfile  # 사용할 Dockerfile의 이름
+    container_name: spell-server
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - '8083:8080'  # 컨테이너의 8080 포트를 호스트의 8083 포트에 매핑
