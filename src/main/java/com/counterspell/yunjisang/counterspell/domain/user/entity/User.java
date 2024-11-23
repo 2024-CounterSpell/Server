@@ -47,6 +47,10 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
