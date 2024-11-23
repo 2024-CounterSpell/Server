@@ -1,6 +1,7 @@
 package com.counterspell.yunjisang.counterspell.global.config;
 
 import com.counterspell.yunjisang.counterspell.domain.user.entity.Role;
+import com.counterspell.yunjisang.counterspell.global.common.ApiPath;
 import com.counterspell.yunjisang.counterspell.global.filter.JWTRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,11 +34,13 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/user/login", "/user/register").anonymous()
-                        .requestMatchers("/admins/**").hasRole(Role.ADMIN.name())
-                        .anyRequest().authenticated())
+                .authorizeHttpRequests(
+                        authorizeRequests -> authorizeRequests
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers(ApiPath.USER_API_PATH + "/login", ApiPath.USER_API_PATH + "/register").anonymous()
+                                .requestMatchers(ApiPath.ADMIN_API_PATH + "/**").hasRole(Role.ADMIN.name())
+                                .anyRequest().authenticated()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
