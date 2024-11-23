@@ -12,7 +12,6 @@ services:
     volumes:
       - ./db/mysql/data:/var/lib/mysql
       - ./db/mysql/init:/docker-entrypoint-initdb.d
-    platform: linux/x86_64
 
   spell-server:
     build:
