@@ -37,9 +37,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(
                         authorizeRequests -> authorizeRequests
                                 .requestMatchers("/").permitAll()
+                                .requestMatchers("/swagger-ui/index.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers(ApiPath.USER_API_PATH + "/login", ApiPath.USER_API_PATH + "/register").anonymous()
                                 .requestMatchers(ApiPath.ADMIN_API_PATH + "/**").hasRole(Role.ADMIN.name())
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

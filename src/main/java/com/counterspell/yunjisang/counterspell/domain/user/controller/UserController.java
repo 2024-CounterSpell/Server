@@ -6,11 +6,8 @@ import com.counterspell.yunjisang.counterspell.domain.user.service.UserService;
 import com.counterspell.yunjisang.counterspell.global.common.ApiPath;
 import com.counterspell.yunjisang.counterspell.global.common.DefaultController;
 import com.counterspell.yunjisang.counterspell.global.common.SuccessResponse;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,16 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(ApiPath.USER_API_PATH)
-@OpenAPIDefinition(info = @Info(title = "COUNTER SPELL API", version = "0.0.1", description = "COUNTER SPELL API 명세서"))
+@Tag(name = "USER API", description = "사용자 관련 API")
 public class UserController extends DefaultController {
     private final UserService userService;
 
     @PostMapping("/register")
-    @Operation(summary = "회원가입")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원가입 성공"),
-            @ApiResponse(responseCode = "409", description = "이미 사용중인 정보"),
-    })
+    @Operation(summary = "회원가입", description = "사용자 회원가입")
     public ResponseEntity<SuccessResponse<ResponseUserDTO.RegisterUserDTO>> registerUser(@Valid @RequestBody RequestUserDTO.RegisterUserDTO registerUserDTO) {
         ResponseUserDTO.RegisterUserDTO dto = userService.save(registerUserDTO.toEntity());
         SuccessResponse<ResponseUserDTO.RegisterUserDTO> response = new SuccessResponse<>(true, dto);
@@ -41,11 +34,7 @@ public class UserController extends DefaultController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "로그인")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인 성공"),
-            @ApiResponse(responseCode = "400", description = "잘못된 정보입니다")
-    })
+    @Operation(summary = "로그인", description = "사용자 로그인")
     public ResponseEntity<SuccessResponse<ResponseUserDTO.CreateJWTDTO>> createJWT(@Valid @RequestBody RequestUserDTO.CreateJWTDTO createJWTDTO) {
         ResponseUserDTO.CreateJWTDTO dto = userService.createJWT(createJWTDTO);
         SuccessResponse<ResponseUserDTO.CreateJWTDTO> response = new SuccessResponse<>(true, dto);
