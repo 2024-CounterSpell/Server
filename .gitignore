@@ -7,6 +7,8 @@ build/
 src/main/resources/*.properties
 
 
+db/mysql/data/#innodb_redo/
+
 ### STS ###
 .apt_generated
 .classpath
